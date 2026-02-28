@@ -9,9 +9,9 @@ export type ThemeProviderProps = {
 };
 
 // Simple theme provider component for web
-export const ThemeProvider: React.FC<ThemeProviderProps> = ({ 
-  children, 
-  theme = config 
+export const ThemeProvider: React.FC<ThemeProviderProps> = ({
+  children,
+  theme = config,
 }) => {
   return <>{children}</>;
 };
