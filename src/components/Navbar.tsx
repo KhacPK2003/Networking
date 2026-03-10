@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { ChevronDown, Bell, MessageCircle } from "lucide-react";
+import { ChevronDown, Bell, MessageCircle, House, MonitorStop, Store, UsersRound, Gamepad2, Search, TableOfContents } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -15,11 +15,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import airbnbLogo from "../shared/assets/image/airbnb-1.png";
-
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { useAuthStore } from "@/store/auth";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { Input } from "./ui/input";
 
 export default function Navbar() {
   const router = useRouter();
@@ -39,33 +39,49 @@ export default function Navbar() {
 
   // Danh sách menu
   const menuItems = [
-    { label: "Home", href: "/" },
-    { label: "Rooms", href: "/rooms" },
-    { label: "Blog", href: "/blog" },
-    { label: "Contact", href: "/contact" },
+    { label: "Home", href: "/", icon: <House /> },
+    { label: "Rooms", href: "/rooms", icon: <MonitorStop /> },
+    { label: "Blog", href: "/blog", icon: <Store />},
+    { label: "Contact", href: "/contact", icon: <UsersRound />},
+    { label: "Games", href: "/games", icon: <Gamepad2 />},
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-background border-b border-border px-4 py-3">
-      <div className="flex items-center gap-4 max-w-7xl mx-auto justify-between">
+    <header className="sticky top-0 z-50 bg-[#242526] border-b border-border py-4">
+      <div className="flex items-center gap-4 w-full mx-auto justify-between pl-10 pr-4">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="lg:hidden"
+        >
+          <TableOfContents className="w-6 h-6 text-white" />
+        </Button>
         {/* Logo */}
         <div
           onClick={() => router.push("/")}
-          className="flex items-center gap-2 cursor-pointer select-none text-2xl self-center px-8 font-bold"
+          className="flex items-center gap-2 cursor-pointer select-none text-2xl self-center font-bold"
         >
           <Image
             src={airbnbLogo}
             alt="Airbnb logo"
             className="object-contain mr-2"
-            width={40}
+            width={32}
             height={32}
           />
-          <span className="text-3xl text-primary-nav">airbnb</span>
-        </div>
+           <div className="flex w-[240px] h-[40px]  items-center gap-2 rounded-full bg-[#3A3B3C] px-4">
+            <Search className="w-4 h-4 shrink-0 text-[#B0B3B8]" />
+            <input
+              type="text"
+              placeholder="Tìm kiếm..."
+              className="flex-1 bg-transparent outline-none text-sm placeholder:text-[#B0B3B8]"
+            />
+           </div>
+          </div>
+        <div>
 
         {/* Menu navigation */}
-        <ul className="items-stretch hidden space-x-3 lg:flex">
-          {menuItems.map(({ label, href }) => {
+        <ul className="items-stretch hidden gap-6 pr-35 lg:flex ">
+          {menuItems.map(({ icon, href, label }) => {
             const isActive = pathname === href;
             return (
               <li key={label} className="flex">
@@ -77,24 +93,25 @@ export default function Navbar() {
                       : "text-muted-foreground hover:text-[#FE6B6E]"
                   }`}
                 >
-                  {label}
+                  {icon}
                 </Link>
               </li>
             );
           })}
         </ul>
-
+        </div>
+        
         {/* Các nút bên phải */}
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="rounded-full relative">
-            <Bell className="h-5 w-5" />
-            <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center bg-red-500 text-white text-xs">
+          <Button variant="ghost" size="icon" className="group rounded-full relative">
+            <Bell className="h-5 w-5 text-white group-hover:text-black transition-colors" />
+            <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center bg-red-500 text-white  text-xs">
               93
             </Badge>
           </Button>
 
-          <Button variant="ghost" size="icon" className="rounded-full">
-            <MessageCircle className="h-5 w-5" />
+          <Button variant="ghost" size="icon" className="group rounded-full">
+            <MessageCircle className="h-5 w-5 text-white group-hover:text-black transition-colors" />
           </Button>
 
           {/* Avatar + Dropdown */}
@@ -170,5 +187,6 @@ export default function Navbar() {
         </div>
       </div>
     </header>
+    
   );
 }
