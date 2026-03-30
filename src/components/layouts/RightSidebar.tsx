@@ -60,7 +60,7 @@ const friendRequests = [
 
 export default function RightSidebar() {
   return (
-    <div className=" bg-[#0F1112] h-full overflow-y-auto">
+    <div className=" bg-[#0F1112] h-screen overflow-y-auto">
       <div className="flex-col w-full p-4 space-y-5">
 
         <div className=" border-b border-white pb-3">

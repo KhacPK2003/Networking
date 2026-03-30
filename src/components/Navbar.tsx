@@ -20,6 +20,9 @@ import { useAuthStore } from "@/store/auth";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Input } from "./ui/input";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "./ui/sheet";
+// import Sidebar from "./layouts/Sidebar";
+import SidebarMobile from "./layouts/SidebarMobile";
 
 export default function Navbar() {
   const router = useRouter();
@@ -48,7 +51,9 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-[#242526] border-b border-border py-4">
-      <div className="flex items-center gap-4 w-full mx-auto justify-between pl-10 pr-4">
+      <div className="flex items-center gap-4 w-full mx-auto justify-between pr-4 pl-10 lg:pl-10">
+        <Sheet>
+        <SheetTrigger asChild>
         <Button
           variant="ghost"
           size="icon"
@@ -56,6 +61,17 @@ export default function Navbar() {
         >
           <TableOfContents className="w-6 h-6 text-white" />
         </Button>
+        </SheetTrigger>
+        <SheetContent
+          side="left"
+          className="p-0 w-[320px] bg-black border-none flex flex-col"
+        >
+            <SheetTitle className="sr-only">Menu</SheetTitle>
+          <div className="flex-1 overflow-y-auto">
+          <SidebarMobile />
+          </div>
+        </SheetContent>
+        </Sheet>
         {/* Logo */}
         <div
           onClick={() => router.push("/")}
@@ -68,7 +84,7 @@ export default function Navbar() {
             width={32}
             height={32}
           />
-           <div className="flex w-[240px] h-[40px]  items-center gap-2 rounded-full bg-[#3A3B3C] px-4">
+           <div className="hidden md:flex w-[240px] h-[40px]  items-center gap-2 rounded-full bg-[#3A3B3C] px-4">
             <Search className="w-4 h-4 shrink-0 text-[#B0B3B8]" />
             <input
               type="text"
