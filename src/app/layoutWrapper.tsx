@@ -4,8 +4,9 @@ import { usePathname } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/TempFooter/Footercial";
 import BackToTop from "@/components/BackToTop/BackToTop";
-import Sidebar from "@/components/layouts/Sidebar";
+// import Sidebar from "@/components/layouts/Sidebar";
 import RightSidebar from "@/components/layouts/RightSidebar";
+import SidebarDesktop from "@/components/layouts/SidebarDesktop";
 
 export default function ClientLayoutWrapper({
   children,
@@ -13,11 +14,20 @@ export default function ClientLayoutWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isAdminPage = pathname?.startsWith("/dashboardAdmin");
+  // const isAdminPage = pathname?.startsWith("/dashboardAdmin");
+  const hideLayoutRoutes = ["/login", "/register"];
 
-  if (isAdminPage) {
-    return <>{children}</>;
-  }
+  const isHiddenLayout =
+  pathname?.startsWith("/dashboardAdmin") ||
+  hideLayoutRoutes.includes(pathname || "");
+
+  if (isHiddenLayout) {
+  return <>{children}</>;
+}
+
+  // if (isAdminPage) {
+  //   return <>{children}</>;
+  // }
 
   return (
     <>
@@ -29,12 +39,12 @@ export default function ClientLayoutWrapper({
       <div className="h-screen flex flex-col bg-gray-100 ">
       {/* Header */}
       <Navbar />
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 ">
 
       {/* Main Layout */}
       <div className="flex flex-1 w-full mx-auto gap-6 ">
         <div className=" hidden lg:block h-full w-[360px] flex-shrink-0">
-          <Sidebar />
+          <SidebarDesktop />
         </div>
 
         <main className="flex-1 min-w-0">

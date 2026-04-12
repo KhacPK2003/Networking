@@ -12,6 +12,8 @@ import { jwtDecode } from "jwt-decode";
 import { TokenPayload, useAuthStore } from "@/store/auth";
 import Link from "next/link";
 import { authApi } from "@/api";
+import Image from "next/image";
+import { Card } from "@/components/ui/card";
 
 const schema = z.object({
   email: z.string().email("Email không hợp lệ"),
@@ -65,40 +67,83 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="mx-auto max-w-sm py-10">
-      <h1 className="text-2xl font-semibold mb-6">Đăng nhập</h1>
-      <form onSubmit={onSubmit} className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="password">Mật khẩu</Label>
-          <Input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        {error ? <p className="text-sm text-red-600">{error}</p> : null}
-        <Button disabled={loading} type="submit" className="w-full">
-          {loading ? "Đang đăng nhập..." : "Đăng nhập"}
-        </Button>
-      </form>
+  <div className="min-h-screen grid lg:grid-cols-2">
 
-      {/* Thanh điều hướng */}
-      <p className="mt-4 text-sm text-center text-gray-600">
-        Chưa có tài khoản?{" "}
-        <Link href="/register" className="text-blue-600 hover:underline">
-          Đăng ký ngay
-        </Link>
-      </p>
-    </div>
+  {/* Left-image */}
+  <div className="hidden lg:flex relative items-center justify-center bg-[radial-gradient(circle_at_20%_20%,rgba(139,92,246,0.15),transparent)] overflow-hidden ">
+    <div className="absolute w-[500px] h-[500px] bg-purple-300/30 blur-[120px] rounded-full" />
+    <Image
+      src="/images/logo/login.png"
+      alt="illustration"
+      width={400}
+      height={400}
+      className="relative z-10 w-[80%] max-w-md object-contain drop-shadow-xl"
+    />
+  </div>
+
+  {/* Right-form*/}
+   <div className="flex items-center justify-center bg-gradient-to-br from-[#0f0f11] to-[#1a1a2e] px-4 relative">
+    <div className="absolute w-[400px] h-[400px] bg-purple-500/20 blur-[120px] rounded-full" />
+    <Card className="relative max-w-sm p-[1px] rounded-2xl bg-gradient-to-r from-purple-500 to-blue-500 shadow-[0_0_40px_rgba(139,92,246,0.2)]">
+      
+      <div className="w-full bg-[#18181b] rounded-2xl p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl font-semibold text-white">
+            Đăng nhập
+          </h2>
+          <p className="text-sm text-gray-400">
+            Nhập thông tin của bạn
+          </p>
+        </div>
+
+        <form onSubmit={onSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label className="text-gray-300">Email</Label>
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="bg-[#0f0f11] border-white/10 text-white focus-visible:ring-2 focus-visible:ring-purple-500 transition"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label className="text-gray-300">Mật khẩu</Label>
+            <Input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="bg-[#0f0f11] border-white/10 text-white focus-visible:ring-2 focus-visible:ring-purple-500 transition"
+            />
+          </div>
+          {error && (
+            <p className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 p-2 rounded-md">
+              {error}
+            </p>
+          )}
+          <Button
+            type="submit"
+            disabled={loading}
+            className="
+              w-full 
+              bg-gradient-to-r from-purple-500 to-blue-500 
+              hover:scale-[1.02] 
+              hover:shadow-[0_0_20px_rgba(139,92,246,0.6)]
+              transition-all duration-300
+            "
+          >
+            {loading ? "Đang đăng nhập..." : "Đăng nhập"}
+          </Button>
+        </form>
+        <p className="mt-6 text-sm text-center text-gray-400">
+          Chưa có tài khoản?{" "}
+          <Link href="/register" className="text-purple-400 hover:underline">
+            Đăng ký
+          </Link>
+        </p>
+
+      </div>
+    </Card>
+  </div>
+</div>
   );
 }
